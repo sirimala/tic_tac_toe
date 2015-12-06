@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <title>Django Login Application |
+        {% block title %}{% endblock %}</title>
+        <style type=text/css >
+        #game_table {
+        	margin-left: 20%;
+        	margin-right: 20%;
+        	width: 200px;
+        	height: 200px;
+        }
+        #game_table tr td {
+        	background-color: red;
+        	cursor: pointer;
+        	width: 20px;
+        	height: 20px;
+        	text-align: center;
+        }
+
+        </style>
+        <script type="text/javascript">
+        $(document).ready(function (){
+        	$("#game_table td").click(function() {
+        		if($(this).text() == undefined || $(this).text() == null || $(this).text() == "") {
+        			coords = $(this).attr("id");
+
+        			$(this).html('<span>X</span>');
+        			var table = $("#game_table");
+        			var list = [];
+        			table.find('tr').each(function (i, el) {
+        				child = [];
+				        $(this).find('td').each(function(k, j){
+				        	console.log($(j).text());
+				        	child.push($(j).text());
+				        });
+				        list.push(child);
+				        
+				    });
+				    
+				    //working
+				    /*var x = [];
+					$("#game_table tr td").each(function() {
+					  x.push($(this).text());
+					});
+					console.log(x);*/
+					//working
+					
+        			$.ajax({
+        				url: '{% url "tic_tac_toe_app.views.mygame" %}',
+        				data: {'current_state':JSON.stringify(list), 'coords':JSON.stringify(coords)},
+        				success: function(dat) {
+            				// console.log("Congratulations! You scored: "+ typeof(JSON.parse(dat)));
+            				if(JSON.parse(dat).status == "won" && JSON.parse(dat).user == "X") {
+            					$("#status").html('<h1>YAHOOOO YOU WON !!! :)</h1>');
+            					$("body").blur();
+            				}else if (JSON.parse(dat).user == "O") {
+            					$("#status").html('<h1>YOU LOOSE !!! :(</h1>');
+            				}else if(JSON.parse(dat).status == "draw"){
+            					$("#status").html('<h1>GAME IS DRAW !!! :(</h1>');
+            				}
+            				
+            				console.log(JSON.parse(dat).data1 + JSON.parse(dat).status+ JSON.parse(dat).user);
+            				dat = JSON.parse(dat).data1;
+            				console.log(typeof(dat));
+            				a = 0;
+            				table.find('tr').each(function (i, el) {
+            					
+	        					b = 0;
+						        $(this).find('td').each(function(k, j){
+						        	if(dat[a][b] != null) {
+						        		$(j).html("<span>"+dat[a][b]+"</span>");
+						        		console.log($(j).html("<span>"+dat[a][b]+"</span>"));
+						        	}
+						        	b = b + 1;
+						        });
+						        a = a + 1
+				   			});
+            			}
+        			});
+        		}
+        		else {
+        			alert("already choosen");
+        		}
+        	});
+        });
+        
+        </script>
+    </head>
+    <body>
+        <h1>{% block head %}{% endblock %}</h1>
+        {% block content %}{% endblock %}
+ 		{% block game %} {%endblock%}
+    </body>
+</html>

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Welcome to Django{% endblock %}
+{% block head %}Welcome to Django{% endblock %}
+{% block content %}
+	<table> 
+	<tr>
+	<td>
+    <p>Welcome {{ user.username }} !!!</p></td>
+    <td><a href="/logout/">Logout</a></td></tr></table>
+{% endblock %}
+
+{%block game%}
+
+<table id="game_table">
+<tr><td id=00></td><td id=01></td><td id=02></td></tr>
+<tr><td id=10></td><td id=11></td><td id=12></td></tr>
+<tr><td id=20></td><td id=21></td><td id=22></td></tr>
+</table>
+<span id="status" ></status>
+{%endblock%}
