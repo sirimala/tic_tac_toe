@@ -18,6 +18,9 @@
         	height: 100px;
         	text-align: center;
         }
+        table span {
+        	visibility: hidden;
+        }
         #details{
         	float: left;
         }
@@ -90,7 +93,7 @@
 					        				'background-image':'url(' + current_image + ')',
 					        				'background-size' : '100% 100%'
 					        			});
-						        		$(j).html("<span hidden>"+dat[a][b]+"</span>");
+						        		$(j).html("<span>"+dat[a][b]+"</span>");
 						        		console.log($(j).html("<span>"+dat[a][b]+"</span>"));
 						        	}
 						        	b = b + 1;
