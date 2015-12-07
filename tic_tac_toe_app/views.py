@@ -51,10 +51,10 @@ def mygame(request):
 	coords = int(eval(coords))
 	m = coords / 10
 	n = coords % 10
-	print m, n
-	print coords
+	# print m, n
+	# print coords
 	data = eval(data1)
-	print data
+	# print data
 	user = ""
 
 	status = gameStatus(data, "X", m, n)
@@ -64,13 +64,15 @@ def mygame(request):
 	while True:
 		x = random.randint(0,2)
 		y = random.randint(0,2)
-		if data[x][y] == "" or data[x][y] == None:
-			print x, y
-			data[x][y] = "O"
-			status1 = gameStatus(data, "O", x, y)
-			if status == "won":
+		if status == "won":
 				user = "X"
 				break
+		if data[x][y] == "" or data[x][y] == None:
+			# print x, y
+			data[x][y] = "O"
+			
+			
+			status1 = gameStatus(data, "O", x, y)
 			if status != "won" and status1 == "won":
 				user = "O"
 				status = status1
@@ -79,9 +81,9 @@ def mygame(request):
 		if count > 9 and status != "won" :
 			status = "draw"
 			break
-	print simplejson.dumps(data)
+	# print simplejson.dumps(data)
 	# data = simplejson.dumps(data)
-	print user, status
+	# print user, status
 	return HttpResponse(simplejson.dumps({'data1':data, 'status':status, 'user':user}))
 
 def gameStatus(board, ch, row, column):
