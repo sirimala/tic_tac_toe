@@ -26,6 +26,7 @@
         }
         </style>
         <script type="text/javascript">
+        var stat = true;
         $(document).ready(function (){
         	$("#game_table td").click(function() {
         		if($(this).text() == undefined || $(this).text() == null || $(this).text() == "") {
@@ -66,11 +67,22 @@
             				// console.log("Congratulations! You scored: "+ typeof(JSON.parse(dat)));
             				if(JSON.parse(dat).status == "won" && JSON.parse(dat).user == "X") {
             					$("#status").html('<h1>YAHOOOO YOU WON !!! :)</h1>');
-            					$("body").blur();
+            					if (confirm("Would you like a new game?")) {
+                                    location.reload();
+                                    stat = false;
+                                }
             				}else if (JSON.parse(dat).user == "O") {
             					$("#status").html('<h1>YOU LOOSE !!! :(</h1>');
+            					if (confirm("Would you like a new game?")) {
+                                    location.reload();
+                                    stat = false;
+                                }
             				}else if(JSON.parse(dat).status == "draw"){
             					$("#status").html('<h1>GAME IS DRAW !!! :(</h1>');
+            					if (confirm("Would you like a new game?")) {
+                                    location.reload();
+                                    stat = false;
+                                }
             				}
             				
             				console.log(JSON.parse(dat).data1 + JSON.parse(dat).status+ JSON.parse(dat).user);
