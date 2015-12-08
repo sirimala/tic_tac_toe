@@ -26,11 +26,9 @@
         }
         </style>
         <script type="text/javascript">
+        var stat = true;
         $(document).ready(function (){
-			var won=0;
         	$("#game_table td").click(function() {
-				if(won==0){
-​
         		if($(this).text() == undefined || $(this).text() == null || $(this).text() == "") {
         			var o_image = "http://vignette3.wikia.nocookie.net/uncyclopedia/images/a/aa/TTT_o.png";
         			var x_image = "http://vignette1.wikia.nocookie.net/uncyclopedia/images/f/f1/TTT_x.png";
@@ -63,22 +61,28 @@
 					//working
 					
         			$.ajax({
-        				url: 'mygame',
+        				url: '{% url "tic_tac_toe_app.views.mygame" %}',
         				data: {'current_state':JSON.stringify(list), 'coords':JSON.stringify(coords)},
         				success: function(dat) {
             				// console.log("Congratulations! You scored: "+ typeof(JSON.parse(dat)));
             				if(JSON.parse(dat).status == "won" && JSON.parse(dat).user == "X") {
             					$("#status").html('<h1>YAHOOOO YOU WON !!! :)</h1>');
-            				//	$("#game_table td").click(function() {alert("hi");
-								//$("#game_table td").attr('disabled',true);
-									won=1;
-							//	});
+            					if (confirm("Would you like a new game?")) {
+                                    location.reload();
+                                    stat = false;
+                                }
             				}else if (JSON.parse(dat).user == "O") {
             					$("#status").html('<h1>YOU LOOSE !!! :(</h1>');
-								won=1;
+            					if (confirm("Would you like a new game?")) {
+                                    location.reload();
+                                    stat = false;
+                                }
             				}else if(JSON.parse(dat).status == "draw"){
             					$("#status").html('<h1>GAME IS DRAW !!! :(</h1>');
-								won=1;
+            					if (confirm("Would you like a new game?")) {
+                                    location.reload();
+                                    stat = false;
+                                }
             				}
             				
             				console.log(JSON.parse(dat).data1 + JSON.parse(dat).status+ JSON.parse(dat).user);
@@ -95,7 +99,7 @@
 						        	}else if(dat[a][b] == "O") {
 						        		current_image = o_image;
 						        	}
-​
+
 						        	if(dat[a][b] != null) {
 						        		$(this).css({
 					        				'background-image':'url(' + current_image + ')',
@@ -114,7 +118,6 @@
         		else {
         			alert("already choosen");
         		}
-				}
         	});
         });
         
